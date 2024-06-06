@@ -12,28 +12,15 @@ const Task: React.FC<TaskProps> = ({ title, check }) => {
     // Массив из контекста
     const {setTasksArray} = useContext(MyContext);
 
-    // Флаг, что бы избежать двойного срабатывания
-    // функции cheking(на label и на Input)
-    const [clickStatus, setClickStatus] = useState(false)
-
     // Изменение статуса задачи
-    const checking = (event: React.MouseEvent<HTMLLabelElement>) => {
-
-        // если на label была вызвана ф-я, второй раз, на input она уже не сработает
-        if (clickStatus) {
-            setClickStatus(false) 
-            return
-        } 
-
-        setClickStatus(true) 
+    const checking = (event: React.MouseEvent<HTMLInputElement>) => {
 
         const inpCheck = event.currentTarget.firstChild as HTMLInputElement
-        const taskName = event.currentTarget.innerText
+        const taskName = event.currentTarget.nextElementSibling?.textContent
 
         // Меняем статус задачи
         setTasksArray(
-            prev => prev.map((task) =>
-                task.title === taskName 
+            prev => prev.map((task) => task.title === taskName 
                     ? {title: task.title, status: task.status === 'Active' ? 'Completed' : 'Active'}
                     : task
             )   
@@ -41,11 +28,10 @@ const Task: React.FC<TaskProps> = ({ title, check }) => {
     }
     
     return (
-        <label onClick={checking} className={Styles.Task}>
-            <input defaultChecked={check} data-check='check' type="checkbox" name="" id="" />
-            <span></span>
+        <div className={Styles.Task}>
+            <input onClick={checking} defaultChecked={check} data-check='check' type="checkbox" name="" id="" />
             <span>{title}</span>
-        </label>
+        </div>
     )
 };
 

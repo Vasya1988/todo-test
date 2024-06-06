@@ -7,9 +7,7 @@ import Button from '../ui/button/Button';
 const TasksList = () => {
 
     // Массив из контекста
-    const {tasksArray, setTasksArray} = useContext(MyContext)
-    // Статус отображаемых задач
-    const [taskStatus, setTaskStatus] = useState('All')
+    const {tasksArray, setTasksArray, taskStatus, setTaskStatus} = useContext(MyContext)
 
     return (
         <>
